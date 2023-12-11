@@ -2,32 +2,32 @@ import utils from "./utils.js";
 import RNA from "./RNA.js";
 import controls from "./controls.js";
 
-const SAMPLES = 20
+const SAMPLES = 2;
 const game = Runner.instance_;
-let dinoList = []
-let dinoIndex = 0
+let dinoList = [];
+let dinoIndex = 0;
 
 let bestScore = 0;
 let bestRNA = null;
 
 function fillDinoList () {
     for (let i=0; i < SAMPLES; i++) {
-        dinoList[i] = new RNA(3, [10,10,2])
-        dinoList[1].load(bestRNA)
-        if (i > 0) dinoList[i].mutate(0.5)
+        dinoList[i] = new RNA(3, [10,10,2]);
+        dinoList[i].load(bestRNA);
+        if (i > 0) dinoList[i].mutate(0.2);
     }
     console.log('Lista de dinossauros criada!')
 }
 
 setTimeout(() => {
-    fillDinoList()
+    fillDinoList();
     controls.dispatch('jump')
-}, 1000)
+}, 1000);
 
 setInterval(() => {
     if (!game.activated) return
 
-    const dino = dinoList[dinoIndex]
+    const dino = dinoList[dinoIndex];
 
     if (game.crashed) {
         if (dino.score > bestScore) {
@@ -43,7 +43,7 @@ setInterval(() => {
             bestScore = 0
     }
     game.restart()
-    
+
     }
     const { tRex, horizon, currentSpeed, distanceRan, dimensions } = game;
     dino.score = distanceRan - 2000;
@@ -74,13 +74,13 @@ setInterval(() => {
         height,
       ]);
 
-      if (jump === crounch) return
-      if (jump) controls.dispatch('jump')
-      if (crounch) controls.dispatch('crouch')
+      if (jump === crounch) return;
+      if (jump) controls.dispatch('jump');
+      if (crounch) controls.dispatch('crounch');
     };
 }, 100);
 
-/* const s  = document.createElement('script')
-s.type = 'modulo';
+/* const s  = document.createElement('script');
+s.type = 'module';
 s.src = 'http://localhost:5500/script.js'
 document.body.appendChild(s); */
